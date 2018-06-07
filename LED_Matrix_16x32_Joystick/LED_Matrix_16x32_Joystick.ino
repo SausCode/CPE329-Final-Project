@@ -1,8 +1,3 @@
-// testcolors demo for Adafruit RGBmatrixPanel library.
-// Renders 512 colors on our 16x32 RGB LED matrix:
-// http://www.adafruit.com/products/420
-// Library supports 4096 colors, but there aren't that many pixels!  :)
-
 // Written by Limor Fried/Ladyada & Phil Burgess/PaintYourDragon
 // for Adafruit Industries.
 // BSD license, all text above must be included in any redistribution.
@@ -39,12 +34,14 @@ void setupPong() {
   setStartupPuckColors(puckLeft, puckRight);
   setUpScreen();
   resetState(RESET, puckLeft, puckRight, ball, score);
-  setDifficultyLevel(7);
-  setGameMode(DEMO);
+  setDifficultyLevel(2);
+  setGameMode(ONE_PLAYER);
+  setGameSpeed(FAST_SPEED);
 }
 
 void setup() {
   matrix.begin();
+  setupSerial();
   setupPong();
 }
 

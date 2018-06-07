@@ -1,7 +1,7 @@
 #pragma once
 
-#define JSMAX 600
-#define JSMIN 400
+#define JSMAX 400
+#define JSMIN 300
 
 int xDirection(int x) {
   /*

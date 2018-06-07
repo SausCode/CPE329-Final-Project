@@ -4,6 +4,10 @@
 #define ONE_PLAYER 1
 #define TWO_PLAYER 2
 
+#define SLOW_SPEED 100
+#define MEDIUM_SPEED 75
+#define FAST_SPEED 50
+
 #define ROWS 16
 #define COLUMNS 32
 #define RESET true
@@ -14,13 +18,18 @@
 #include "MATRIX.h"
 #include "SCORE.h"
 
-int mode = DEMO;
+int mode = ONE_PLAYER;
 int difficultyLevel = 7;
 int reset = 0;
+int gameSpeed = FAST_SPEED;
 
 void readInputs(PUCK &puckLeft, PUCK &puckRight) {
   puckLeft.dir = outputDirection(analogRead(12), analogRead(13));
   reset = digitalRead(13);
+}
+
+void setGameSpeed(int _gameSpeed){
+  gameSpeed = _gameSpeed;
 }
 
 void setDifficultyLevel(int level) {
@@ -126,8 +135,9 @@ void runPongGame(BLUETOOTH &bt, PUCK &puckLeft, PUCK & puckRight, BALL &ball, SC
     delay(100);
   }
   //PONG GAME MODE
-  readBluetooth(bt);
-  updatePuckColors(bt, puckLeft, puckRight);
+  if(readBluetooth(bt)){
+    updatePuckColors(bt, puckLeft, puckRight);
+  }
 
   if (checkScores(score, puckLeft, puckRight, ball)) {
     return;
@@ -158,5 +168,5 @@ void runPongGame(BLUETOOTH &bt, PUCK &puckLeft, PUCK & puckRight, BALL &ball, SC
   }
 
   drawNewPucks(puckLeft, puckRight);
-  delay(50);
+  delay(gameSpeed);
 }

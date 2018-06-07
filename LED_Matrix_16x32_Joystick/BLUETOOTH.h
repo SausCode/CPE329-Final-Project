@@ -13,7 +13,11 @@ unsigned int readBtUnsignedInt(BLUETOOTH &bt) {
   return Serial1.read();
 }
 
-void readBluetooth(BLUETOOTH &bt) {
+char readBtChar(BLUETOOTH &bt){
+  return Serial1.read();
+}
+
+bool readBluetooth(BLUETOOTH &bt) {
   int index = 0;
   //0 : LEFT
   //1 : RIGHT
@@ -48,8 +52,15 @@ void readBluetooth(BLUETOOTH &bt) {
         else {
           bt.puckRightRGB.b = readBtUnsignedInt(bt);
         }
-        index = 0;
+        index++;
         break;
+      case 4:
+        if(readBtChar(bt) == '\n'){
+          index = 0;
+          return true;
+        }
+        return false;   
     }
   }
+  return false;
 }
