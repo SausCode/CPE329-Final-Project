@@ -1,6 +1,6 @@
 #pragma once
 
-#define SCORE_TO_WIN 7
+#define SCORE_TO_WIN 3
 
 struct SCORE {
   int player0;

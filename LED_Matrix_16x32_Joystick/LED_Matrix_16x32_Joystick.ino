@@ -36,8 +36,8 @@ void setupPong() {
   setStartupPuckColors(puckLeft, puckRight);
   setUpScreen();
   resetState(RESET, puckLeft, puckRight, ball, score);
-  setDifficultyLevel(2);
-  setGameMode(TWO_PLAYER);
+  setDifficultyLevel(5);
+  setGameMode(DEMO);
   setGameSpeed(FAST_SPEED);
 }
 

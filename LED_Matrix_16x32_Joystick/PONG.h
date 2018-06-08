@@ -51,6 +51,7 @@ void readInputs(PUCK &puckLeft, PUCK &puckRight) {
       return;
     }
 }
+}
 
 void setGameSpeed(int _gameSpeed) {
   gameSpeed = _gameSpeed;
