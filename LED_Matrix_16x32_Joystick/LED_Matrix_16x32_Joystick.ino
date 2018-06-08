@@ -25,9 +25,11 @@ SCORE score;
 
 void setupSerial() {
   //USB CONNECTION
-  Serial.begin(9600);
+  Serial.begin(115200);
   //BLUETOOTH CONNECTION
   Serial1.begin(9600);
+  //MSP CONNECTION
+  Serial2.begin(9600);
 }
 
 void setupPong() {
@@ -35,7 +37,7 @@ void setupPong() {
   setUpScreen();
   resetState(RESET, puckLeft, puckRight, ball, score);
   setDifficultyLevel(2);
-  setGameMode(ONE_PLAYER);
+  setGameMode(TWO_PLAYER);
   setGameSpeed(FAST_SPEED);
 }
 

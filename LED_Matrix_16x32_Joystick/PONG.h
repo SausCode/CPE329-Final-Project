@@ -18,17 +18,41 @@
 #include "MATRIX.h"
 #include "SCORE.h"
 
-int mode = ONE_PLAYER;
+int mode;
 int difficultyLevel = 7;
 int reset = 0;
 int gameSpeed = FAST_SPEED;
 
-void readInputs(PUCK &puckLeft, PUCK &puckRight) {
-  puckLeft.dir = outputDirection(analogRead(12), analogRead(13));
-  reset = digitalRead(13);
+unsigned int readSerialUnsignedInt() {
+  return Serial2.read();
 }
 
-void setGameSpeed(int _gameSpeed){
+char readSerialChar() {
+  return Serial2.read();
+}
+
+void readInputs(PUCK &puckLeft, PUCK &puckRight) {
+  //  'Protocol' is : Byte 0  Byte 1  Byte 2  Byte 3  Byte 4
+  //                  0x00    LDir    RDir    Reset   0x0D
+
+  reset = digitalRead(13);
+
+  int index = 0;
+  while (Serial2.available() > 0) {
+    if(index == 0){
+      //Serial.println(Serial2.read());
+      puckLeft.dir = Serial2.read();
+      index++;
+    }
+    else if(index == 1){
+      //Serial.println(Serial2.read());
+      puckRight.dir = Serial2.read();
+      index = 0;
+      return;
+    }
+}
+
+void setGameSpeed(int _gameSpeed) {
   gameSpeed = _gameSpeed;
 }
 
@@ -130,12 +154,18 @@ void runPongGame(BLUETOOTH &bt, PUCK &puckLeft, PUCK & puckRight, BALL &ball, SC
 
   readInputs(puckLeft, puckRight);
 
-  if (!reset) {
-    resetState(RESET, puckLeft, puckRight, ball, score);
-    delay(100);
-  }
+//  if (!readInputs(puckLeft, puckRight)) {
+//    puckLeft.dir = oldPuckLeftDir;
+//    puckRight.dir = oldPuckRightDir;
+//  }
+  //
+
+    if (!reset) {
+      resetState(RESET, puckLeft, puckRight, ball, score);
+      delay(100);
+    }
   //PONG GAME MODE
-  if(readBluetooth(bt)){
+  if (readBluetooth(bt)) {
     updatePuckColors(bt, puckLeft, puckRight);
   }
 
